@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import javax.servlet.http.HttpServletResponse;
 
+import com.czy.mybbs.config.ConfigKeys;
 import com.czy.mybbs.config.SystemGlobals;
 import com.czy.mybbs.context.RequestContext;
 import com.czy.mybbs.repository.TemplateRepository;
@@ -22,9 +23,10 @@ public abstract class Command {
 	private String templateName;// 模版名称会对应到具体的页面模版
 
 	public abstract void list();
-	
-	public void setTemplateName(String templateNameKey){
-		this.templateName = TemplateRepository.getTempladteName(templateNameKey);
+
+	public void setTemplateName(String templateNameKey) {
+		this.templateName = TemplateRepository
+				.getTempladteName(templateNameKey);
 	}
 
 	public Template process(RequestContext request,
@@ -34,11 +36,11 @@ public abstract class Command {
 		this.response = response;
 		this.templadtContext = templadtContext;
 		String action = this.request.getAction();
-		if(action == null){
+		if (action == null) {
 			this.list();
-		}else{
+		} else {
 			try {
-				// 在方法执行的过程中
+				// 在方法执行的过程中 会制定 templateName
 				this.getClass().getMethod(action, NO_ARGS_CLASS)
 						.invoke(this, NO_ARGS_OBJECT);
 			} catch (NoSuchMethodException e) {
@@ -49,12 +51,10 @@ public abstract class Command {
 		}
 		try {
 			return BBSExecuteContext.templateConfig().getTemplate(
-					new StringBuffer(SystemGlobals.getValue("template.dir"))// 此处获取的dir
-																			// 是
-																			// 在template下的default
-																			// 或其他模版
+					new StringBuffer(SystemGlobals.getValue(ConfigKeys.TEMPLATE_DIR))// 此处获取的dir是在template下的default或其他模版
 							.append('/').append(this.templateName).toString());
 		} catch (IOException e) {
+			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
 

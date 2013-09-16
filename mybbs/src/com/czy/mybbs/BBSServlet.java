@@ -10,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.czy.mybbs.config.ConfigKeys;
 import com.czy.mybbs.config.SystemGlobals;
 import com.czy.mybbs.context.RequestContext;
 import com.czy.mybbs.repository.ModuleRepository;
@@ -22,7 +23,6 @@ public class BBSServlet extends BaseServlet {
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
-		System.out.println(SystemGlobals.getValue("test") + "bbsservlet");
 		// TODO 相关仓库 缓存
 		BBSExecuteContext ex = BBSExecuteContext.get();
 		// ex.setConnection(conn);
@@ -34,9 +34,10 @@ public class BBSServlet extends BaseServlet {
 			throws ServletException, IOException {
 		try {
 			Writer out = null;
-			String encoding = SystemGlobals.getValue("encoding");
 			RequestContext request = new RequestContext(req);
-
+			String encoding = SystemGlobals.getValue(ConfigKeys.ENCODING);
+			
+			// 获取该线程的 ex
 			BBSExecuteContext ex = BBSExecuteContext.get();
 			ex.set(ex);
 

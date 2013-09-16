@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.czy.mybbs.config.ConfigKeys;
 import com.czy.mybbs.config.SystemGlobals;
 
 public class RequestContext {
@@ -18,7 +19,7 @@ public class RequestContext {
 		this.request.getContextPath();
 		try {
 			this.request.setCharacterEncoding(SystemGlobals
-					.getValue("encoding"));
+					.getValue(ConfigKeys.ENCODING));
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}

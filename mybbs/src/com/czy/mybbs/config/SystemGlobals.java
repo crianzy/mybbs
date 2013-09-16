@@ -27,6 +27,7 @@ public class SystemGlobals {
 	 * @param filepath
 	 *            具体的配置文件路径
 	 */
+	@SuppressWarnings("static-access")
 	public static void init(String applicationPath, String filepath) {
 		systemGlobals.configPath = applicationPath+"/WEB-INF/config";
 		systemGlobals.applicationPath = applicationPath;
